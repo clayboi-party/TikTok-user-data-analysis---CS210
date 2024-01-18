@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[15]:
+# In[1]:
 
 
 import json
@@ -120,14 +120,20 @@ def analyze_likes(data):
     like_dates = [datetime.strptime(item["Date"], "%Y-%m-%d %H:%M:%S").date() for item in liked_videos]
     most_liked_day, most_liked_count = Counter(like_dates).most_common(1)[0] if like_dates else (None, 0)
 
-    # First liked video
-    first_liked_video = liked_videos[-1]["Link"] if liked_videos else None
+    # First liked video and its date
+    if liked_videos:
+        first_liked_video = liked_videos[-1]["Link"]
+        first_liked_video_date = datetime.strptime(liked_videos[-1]["Date"], "%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d %H:%M:%S")
+    else:
+        first_liked_video = None
+        first_liked_video_date = None
 
     return {
         "Total likes": total_likes,
         "Day with most liked posts": str(most_liked_day),
         "Likes count on that day": most_liked_count,
-        "First liked video": first_liked_video
+        "First liked video": first_liked_video,
+        "Date of first liked video": first_liked_video_date
     }
 
 def analyze_shares(data):
