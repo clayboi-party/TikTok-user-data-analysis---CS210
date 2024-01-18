@@ -41,11 +41,13 @@ The script analyzes the following aspects of TikTok data:
    - Total likes
    - Day with most liked posts and the count
    - First liked video
+   - First liked video date
 
 4. **Shares**:
    - Total shares
    - Day with most shared posts and the count
    - First shared video
+   - First shared video date
 
 5. **Live Streams**:
    - Total lives viewed
