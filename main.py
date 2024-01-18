@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[2]:
 
 
 import json
@@ -137,7 +137,6 @@ def analyze_likes(data):
     }
 
 def analyze_shares(data):
-    # Extracting the "ShareHistoryList" from the data
     shared_videos = data.get("Activity", {}).get("Share History", {}).get("ShareHistoryList", [])
     
     # Total shares
@@ -147,15 +146,22 @@ def analyze_shares(data):
     share_dates = [datetime.strptime(item["Date"], "%Y-%m-%d %H:%M:%S").date() for item in shared_videos]
     most_shared_day, most_shared_count = Counter(share_dates).most_common(1)[0] if share_dates else (None, 0)
 
-    # First shared video
-    first_shared_video = shared_videos[-1]["Link"] if shared_videos else None
+    # First shared video and its date
+    if shared_videos:
+        first_shared_video = shared_videos[-1]["Link"]
+        first_shared_video_date = datetime.strptime(shared_videos[-1]["Date"], "%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d %H:%M:%S")
+    else:
+        first_shared_video = None
+        first_shared_video_date = None
 
     return {
         "Total shares": total_shares,
         "Day with most shared posts": str(most_shared_day),
         "Shares count on that day": most_shared_count,
-        "First shared video": first_shared_video
+        "First shared video": first_shared_video,
+        "Date of first shared video": first_shared_video_date
     }
+
 
 def analyze_live_streams(data):
     # Adjusting to the structure where "Tiktok Live" is directly under the main data
